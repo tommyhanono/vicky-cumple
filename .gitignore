@@ -1,0 +1,6 @@
+.DS_Store
+.claude/
+media/_transcode.log
+media/cand_*.jpg
+*.MOV
+*.mov
