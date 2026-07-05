@@ -159,16 +159,20 @@ function closeLightbox() {
   document.getElementById("lbImg").src = "";
 }
 
-/* ---- Video: tap-to-play CON sonido ---- */
-function initVideo() {
-  const video = document.getElementById("bdayVideo");
-  const overlay = document.getElementById("playOverlay");
+/* ---- Video: tap-to-play CON sonido (sirve para todos los videos) ---- */
+function pauseOtherVideos(current) {
+  document.querySelectorAll("video").forEach((v) => { if (v !== current) v.pause(); });
+}
+function initVideo(videoId, overlayId) {
+  const video = document.getElementById(videoId);
+  const overlay = document.getElementById(overlayId);
   if (!video || !overlay) return;
 
   const start = () => {
-    video.muted = false;      // ¡con sonido!
+    pauseOtherVideos(video);   // que no se solapen los audios
+    video.muted = false;       // ¡con sonido!
     video.volume = 1.0;
-    video.controls = true;    // mostrar controles nativos al arrancar
+    video.controls = true;     // mostrar controles nativos al arrancar
     const p = video.play();
     if (p && p.catch) {
       p.catch(() => {
@@ -180,7 +184,10 @@ function initVideo() {
   };
 
   overlay.addEventListener("click", start);
-  video.addEventListener("play", () => overlay.classList.add("is-hidden"));
+  video.addEventListener("play", () => {
+    pauseOtherVideos(video);
+    overlay.classList.add("is-hidden");
+  });
   // Si termina, volver a mostrar el botón para "ver de nuevo"
   video.addEventListener("ended", () => {
     overlay.querySelector(".play-label").textContent = "Verlo de nuevo 💙";
@@ -210,7 +217,8 @@ document.addEventListener("DOMContentLoaded", () => {
   makeIntroStars(40);
   buildGallery();
   initReveal();
-  initVideo();
+  initVideo("bdayVideo", "playOverlay");
+  initVideo("estherVideo", "estherOverlay");
 
   const envelope = document.getElementById("envelope");
   const openBtn = document.getElementById("openBtn");

@@ -342,6 +342,17 @@ section, header, footer { position: relative; z-index: 2; }
   margin-top: 22px;
 }
 
+/* ---- Video vertical (Esther) ---- */
+.video-frame--portrait {
+  max-width: 360px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.video-wrap--portrait {
+  aspect-ratio: 474 / 850;
+}
+.video-wrap--portrait video { object-fit: cover; }
+
 /* ---------- GALERÍA ---------- */
 .gallery-section { padding: 50px 20px 60px; max-width: var(--maxw); margin: 0 auto; }
 .gallery {
